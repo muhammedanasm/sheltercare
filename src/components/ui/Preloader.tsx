@@ -10,9 +10,7 @@ export default function Preloader() {
   useEffect(() => {
     const tl = gsap.timeline();
 
-    // വീഡിയോ ലോഡ് ആയി പ്ലേ ചെയ്യാൻ തുടങ്ങുമ്പോൾ അനിമേഷൻ തുടങ്ങുന്നു
     const startLoading = () => {
-      // 1. കൗണ്ടർ അനിമേഷൻ (കൃത്യം 8 സെക്കൻഡ്)
       const countObj = { val: 0 };
       gsap.to(countObj, {
         val: 100,
