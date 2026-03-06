@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+:root {
+  --font-manrope: "Manrope", sans-serif;
+  --primary-red: #87001a;
+}
+
+body {
+  background-color: #050505;
+  color: white;
+  overflow-x: hidden;
+  font-family: var(--font-manrope);
+}
+
+/* Dark Hero Gradient */
+.hero-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(5, 5, 5, 0.2) 0%,
+    rgba(5, 5, 5, 0.8) 70%,
+    rgba(5, 5, 5, 1) 100%
+  );
+}
+
+/* Glassmorphism for Slider */
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 2px solid var(--primary-red);
+}
+
+.swiper-pagination-progressbar-fill {
+  background: var(--primary-red) !important;
+}
+
+.nav-link {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -4px;
+  left: 0;
+  background-color: #87001a;
+  transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+/* Premium Hero Overlay */
+.hero-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(5, 5, 5, 1) 0%,
+    rgba(5, 5, 5, 0.4) 50%,
+    rgba(5, 5, 5, 0.2) 100%
+  );
+}
+
+/* Subtly animated slider shadow */
+.glass-card-active {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Custom Text Selection */
+::selection {
+  background-color: var(--primary-brand);
+  color: white;
+}
+/* Hide Swiper spill on the left of the container but keep it on the right */
+.swiper {
+  clip-path: inset(-100% -100% -100% 0);
+}
+
+.text-outline-dark {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+}
