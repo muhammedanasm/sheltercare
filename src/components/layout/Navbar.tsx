@@ -5,54 +5,64 @@ import { useState, useEffect } from "react";
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
 
-  // സ്ക്രോൾ ചെയ്യുമ്പോൾ ബാക്ക്ഗ്രൗണ്ട് മാറാൻ
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const navLinks = [
+    { name: "About Us", href: "#about" },
+    { name: "Services", href: "#services" },
+    { name: "Process", href: "#process" },
+    { name: "Pricing", href: "#pricing" },
+  ];
+
   return (
     <nav
-      className={`fixed top-0 w-full z-[100] transition-all duration-500 px-8 md:px-16 
-      ${scrolled ? "py-4 backdrop-blur-md bg-black/50" : "py-6 bg-transparent"}`}
+      className={`fixed top-0 w-full z-[100] transition-all duration-300 bg-white border-b border-gray-100 ${scrolled ? "py-3" : "py-5"}`}
     >
-      <div className="max-w-[1600px] mx-auto flex justify-between items-center">
-        {/* Logo Replacement */}
+      <div className="max-w-[1800px] mx-auto px-6 md:px-12 flex justify-between items-center">
+        {/* LEFT: LOGO */}
         <Link
           href="/"
-          className="relative h-10 w-32 md:h-15 md:w-40 transition-transform hover:scale-105"
+          className="flex-shrink-0 transition-transform hover:scale-105"
         >
           <img
             src="/images/logo.jpg"
             alt="Shelter Care Logo"
-            className="h-full w-full object-contain object-left"
+            className="h-8 md:h-10 w-auto object-contain"
           />
         </Link>
 
-        {/* Nav Links - Premium Look */}
-        <div className="hidden md:flex gap-12 text-[10px] font-bold uppercase tracking-[0.25em] text-white">
-          {["Home", "About", "Services", "Projects", "Contact"].map((item) => (
+        {/* CENTER: NAV LINKS with Underline Effect */}
+        <div className="hidden md:flex items-center gap-10">
+          {navLinks.map((item) => (
             <Link
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              className="nav-link hover:text-white transition-colors duration-300"
+              key={item.name}
+              href={item.href}
+              className="nav-underline-wrapper text-[15px] font-medium text-zinc-900 transition-colors hover:text-zinc-600"
             >
-              {item}
+              {item.name}
             </Link>
           ))}
         </div>
 
-        {/* Let's Talk Button - Minimal & Premium */}
-        <button className="group relative px-6 py-2 overflow-hidden border border-white/20 rounded-full transition-all duration-500 hover:border-[#87001a] cursor:pointer">
-          <span className="relative z-10 text-[11px] font-bold uppercase tracking-wider text-white group-hover:text-white transition-colors">
-            Let's Talk
-          </span>
-          {/* Hover Slide Effect */}
-          <div className="absolute inset-0 bg-[#87001a] -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></div>
-        </button>
+        {/* RIGHT: BUTTONS with Light Effect */}
+        <div className="flex items-center gap-4">
+          {/* Book a Call - Minimal Border Style */}
+          <Link
+            href="#book"
+            className="premium-btn-shine hidden md:flex items-center justify-center border border-gray-200 text-[14px] font-semibold text-zinc-900 px-6 py-2.5 rounded-full hover:bg-gray-50 hover:border-gray-300 transition-all"
+          >
+            Book a Call
+          </Link>
+
+          {/* Get in Touch - Solid Black Style */}
+          <button className="premium-btn-shine bg-black text-white px-7 py-2.5 rounded-full text-[14px] font-semibold transition-all hover:bg-zinc-800">
+            <span className="relative z-10">Get in Touch</span>
+          </button>
+        </div>
       </div>
     </nav>
   );

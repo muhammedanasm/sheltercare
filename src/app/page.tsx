@@ -1,6 +1,8 @@
 import Navbar from "@/components/layout/Navbar";
 import About from "@/components/sections/About";
 import Hero from "@/components/sections/Hero";
+import Methods from "@/components/sections/Methods";
+import Offers from "@/components/sections/Offers";
 import Process from "@/components/sections/Process";
 import Projects from "@/components/sections/Projects";
 import Services from "@/components/sections/Services";
@@ -10,10 +12,12 @@ export default function Home() {
     <main>
       <Navbar />
       <Hero />
-      <About />
-      <Services />
-      <Projects />
-      <Process />
+      <Methods />
+      <Offers />
+      {/* <About /> */}
+      {/* <Services /> */}
+      {/* <Projects /> */}
+      {/* <Process /> */}
       {/* Mattulla sections ivide add cheyyam */}
       <div className="h-screen bg-[#0a0a0a]"></div>
     </main>
