@@ -1,11 +1,14 @@
 import Navbar from "@/components/layout/Navbar";
 import About from "@/components/sections/About";
+import Footer from "@/components/sections/Footer";
 import Hero from "@/components/sections/Hero";
 import Methods from "@/components/sections/Methods";
 import Offers from "@/components/sections/Offers";
+import Partners from "@/components/sections/Partners";
 import Process from "@/components/sections/Process";
 import Projects from "@/components/sections/Projects";
 import Services from "@/components/sections/Services";
+import Testimonials from "@/components/sections/Testimonials";
 
 export default function Home() {
   return (
@@ -14,12 +17,15 @@ export default function Home() {
       <Hero />
       <Methods />
       <Offers />
+      <Partners />
+      <Testimonials />
+      <Footer />
       {/* <About /> */}
       {/* <Services /> */}
       {/* <Projects /> */}
       {/* <Process /> */}
       {/* Mattulla sections ivide add cheyyam */}
-      <div className="h-screen bg-[#0a0a0a]"></div>
+      {/* <div className="h-screen bg-[#0a0a0a]"></div> */}
     </main>
   );
 }

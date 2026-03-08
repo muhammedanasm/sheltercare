@@ -5,6 +5,7 @@ import { Star } from "lucide-react";
 const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [activeLayer, setActiveLayer] = useState(0); // 0: Hybrid, 1: PU, 2: Concrete
 
   const trustImages = [
     "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop",
@@ -71,6 +72,37 @@ const Hero = () => {
     window.addEventListener("load", checkVideo);
     return () => window.removeEventListener("load", checkVideo);
   }, []);
+
+  const layers = [
+    {
+      id: "03",
+      name: "HYBRID SHIELD",
+      specs: "Final Waterproofing Coat | UV-R8 Protection",
+      details:
+        "A multi-layer hybrid finish that serves as the ultimate impenetrable shield for the entire structure.",
+      stats: { temp: "24.2°C", strength: "High" },
+    },
+    {
+      id: "02",
+      name: "PU FOAM INSULATION",
+      specs: "45kg/m³ Density | Seamless Thermal Barrier",
+      details:
+        "High-density Polyurethane foam creates a seamless insulation base layer to eliminate structural vulnerabilities.",
+      stats: { temp: "28.5°C", strength: "Medium" },
+    },
+    {
+      id: "01",
+      name: "CONCRETE SUBSTRATE",
+      specs: "Structural Slab | Cleaned & Primed",
+      details:
+        "The foundation layer is thoroughly cleaned and treated with structural primers to ensure maximum bonding.",
+      stats: { temp: "30.1°C", strength: "Base" },
+    },
+  ];
+
+  useEffect(() => {
+    // Scanner beam automation logic can go here if needed
+  }, [activeLayer]);
 
   return (
     <section className="bg-white pt-22 pb-10 px-3 md:px-3">
@@ -171,7 +203,7 @@ const Hero = () => {
                   : "opacity-0 scale-105"
               }`}
             >
-              <source src="/videos/hero-bg.mp4" type="video/mp4" />
+              <source src="/videos/hero.mp4" type="video/mp4" />
             </video>
 
             {/* Subtle Dark Overlay */}
@@ -181,72 +213,91 @@ const Hero = () => {
           {/* --- ULTRA-PREMIUM STRUCTURAL SCAN SECTION --- */}
           <div className="mt-40 grid grid-cols-1 lg:grid-cols-12 gap-20 items-center overflow-hidden pb-40">
             {/* Left Side: Animated Layer Scanner */}
-            <div className="lg:col-span-6 relative h-[500px] flex items-center justify-center px-10">
-              {/* 1. Structural Layers Container */}
-              <div className="relative w-full max-w-sm aspect-[4/5] flex flex-col gap-2 perspective-1000 group">
-                {/* Animated Scanning Beam */}
-                <div className="scanner-beam absolute left-[-10%] w-[120%] h-[2px] bg-[#87001a] z-30 shadow-[0_0_15px_#87001a] opacity-50"></div>
+            <div className="lg:col-span-6 relative h-[600px] flex items-center justify-center">
+              {/* Background Grid */}
+              <div
+                className="absolute inset-0 opacity-10 pointer-events-none"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+                  backgroundSize: "40px 40px",
+                }}
+              ></div>
 
-                {/* Layer 3: Final Protection (Top) */}
-                <div className="layer-item relative h-20 bg-white/[0.08] border border-white/10 rounded-xl backdrop-blur-md flex items-center px-8 transform transition-transform duration-500 hover:translate-x-4">
-                  <div className="w-1 h-8 bg-[#87001a] rounded-full mr-6"></div>
-                  <div>
-                    <p className="text-[8px] font-mono text-white/30 uppercase italic">
-                      Phase_03
-                    </p>
-                    <h4 className="text-white text-lg font-bold tracking-tight">
-                      HYBRID SHIELD
-                    </h4>
+              <div className="relative w-full max-w-sm flex flex-col gap-4 perspective-1000">
+                {/* Dynamic Scanning Beam - Moves based on active layer */}
+                <div
+                  className="scanner-beam absolute left-[-10%] w-[120%] h-[1.5px] bg-[#87001a] z-50 shadow-[0_0_15px_#87001a] transition-all duration-700 ease-in-out"
+                  style={{ top: `${activeLayer * 32 + 15}%` }}
+                ></div>
+
+                {layers.map((layer, index) => (
+                  <div
+                    key={index}
+                    onClick={() => setActiveLayer(index)}
+                    className={`relative group cursor-pointer transition-all duration-500 rounded-2xl border backdrop-blur-3xl p-6 flex items-center
+                  ${
+                    activeLayer === index
+                      ? "bg-white/[0.08] border-[#87001a]/50 shadow-[0_0_40px_rgba(135,0,26,0.15)] scale-105"
+                      : "bg-white/[0.02] border-white/5 opacity-40 hover:opacity-100"
+                  }`}
+                  >
+                    {/* Layer Number & Line */}
+                    <div
+                      className={`w-1 h-10 rounded-full mr-6 transition-all duration-500 ${activeLayer === index ? "bg-[#87001a]" : "bg-white/20"}`}
+                    ></div>
+
+                    <div className="flex-1">
+                      <p className="text-[9px] font-mono text-white/30 uppercase tracking-widest">
+                        Phase_{layer.id}
+                      </p>
+                      <h4 className="text-white text-lg font-black tracking-tight uppercase transition-colors group-hover:text-white">
+                        {layer.name}
+                      </h4>
+                      {/* Tiny Specs (Shown when active) */}
+                      <div
+                        className={`overflow-hidden transition-all duration-500 ${activeLayer === index ? "max-h-10 opacity-100 mt-2" : "max-h-0 opacity-0"}`}
+                      >
+                        <p className="text-[10px] font-mono text-[#87001a] font-bold italic">
+                          {layer.specs}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Active Indicator Pulse */}
+                    {activeLayer === index && (
+                      <div className="absolute right-6 w-2 h-2 bg-[#87001a] rounded-full animate-ping"></div>
+                    )}
                   </div>
-                </div>
+                ))}
 
-                {/* Layer 2: Thermal Insulation (Middle) */}
-                <div className="layer-item relative h-32 bg-white/[0.05] border border-white/10 rounded-xl backdrop-blur-md flex items-center px-8 transform transition-transform duration-500 hover:translate-x-4">
-                  <div className="w-1 h-12 bg-white/20 rounded-full mr-6"></div>
-                  <div>
-                    <p className="text-[8px] font-mono text-white/30 uppercase italic">
-                      Phase_02
+                {/* Technical Detail Card (Appears on the side) */}
+                <div className="absolute -right-48 top-1/2 -translate-y-1/2 w-40 hidden xl:block">
+                  <div className="p-4 bg-[#111] border border-white/10 rounded-xl shadow-2xl animate-fade-in">
+                    <p className="text-[8px] font-mono text-white/40 uppercase mb-2">
+                      Live_Diagnostics
                     </p>
-                    <h4 className="text-white text-lg font-bold tracking-tight uppercase">
-                      PU Foam Insulation
-                    </h4>
+                    <div className="space-y-2">
+                      <div className="flex justify-between border-b border-white/5 pb-1">
+                        <span className="text-[8px] text-white/60">TEMP</span>
+                        <span className="text-[9px] text-white font-bold">
+                          {layers[activeLayer].stats.temp}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-[8px] text-white/60">STATUS</span>
+                        <span className="text-[9px] text-green-500 font-bold uppercase">
+                          Optimal
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  {/* Small internal schematic line */}
-                  <div className="absolute right-10 w-20 h-[1px] bg-white/5 border-t border-dashed border-white/20"></div>
-                </div>
-
-                {/* Layer 1: Base Concrete (Bottom) */}
-                <div className="layer-item relative h-24 bg-white/[0.02] border border-white/10 rounded-xl backdrop-blur-md flex items-center px-8 transform transition-transform duration-500 hover:translate-x-4">
-                  <div className="w-1 h-8 bg-white/10 rounded-full mr-6"></div>
-                  <div>
-                    <p className="text-[8px] font-mono text-white/30 uppercase italic">
-                      Phase_01
-                    </p>
-                    <h4 className="text-white text-lg font-bold tracking-tight uppercase opacity-50">
-                      Concrete Substrate
-                    </h4>
-                  </div>
-                </div>
-
-                {/* Floating Technical Tags */}
-                <div className="absolute -right-20 top-1/4 p-3 border border-white/10 rounded-lg bg-black/40 backdrop-blur-md animate-bounce-slow">
-                  <p className="text-[9px] font-mono text-[#87001a] font-bold">
-                    TEMP: 24.5°C
-                  </p>
-                </div>
-                <div className="absolute -left-16 bottom-1/4 p-3 border border-white/10 rounded-lg bg-black/40 backdrop-blur-md animate-bounce-slow delay-1000">
-                  <p className="text-[9px] font-mono text-white/40 font-bold">
-                    HUMIDITY: 12%
-                  </p>
                 </div>
               </div>
-
-              {/* Background Grid Accent */}
-              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/grid-me.png')] opacity-10 pointer-events-none"></div>
             </div>
 
             {/* Right Side: Content Block */}
-            <div className="lg:col-span-6 space-y-12 pl-10">
+            <div className="lg:col-span-6 space-y-12 pl-10" id="about">
               <div className="space-y-6">
                 <span className="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/80">
                   / Who We Are
